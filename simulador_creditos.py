@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import numpy_financial as npf # Importar numpy_financial para funciones financieras
 
 # Configuración de la página de Streamlit
 st.set_page_config(page_title="Simulador de Créditos", layout="wide")
@@ -134,13 +135,13 @@ if st.button("Calcular Tasa Real del Préstamo"):
             cuota_mensual_analisis = importe_a_devolver_analisis / cantidad_cuotas_analisis
             
             try:
-                # Usamos np.rate para encontrar la tasa mensual implícita
+                # Usamos npf.rate para encontrar la tasa mensual implícita
                 # nper: número de períodos (cuotas)
                 # pmt: pago por período (cuota mensual, negativo porque es una salida de efectivo)
                 # pv: valor presente (capital realmente recibido, positivo porque es una entrada de efectivo)
                 # fv: valor futuro (0, al final del préstamo)
                 # type: 0 para pagos al final del período (lo más común)
-                tasa_mensual_real = np.rate(
+                tasa_mensual_real = npf.rate( # Cambio de np.rate a npf.rate
                     cantidad_cuotas_analisis,
                     -cuota_mensual_analisis, # El pago es una salida, por eso es negativo
                     capital_inicial_recibido, # El capital recibido es una entrada
